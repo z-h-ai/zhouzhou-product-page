@@ -143,9 +143,6 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
 .form-group input,.form-group select,.form-group textarea{padding:10px 14px;border:1.5px solid var(--bdr);border-radius:10px;font-size:14px;font-family:inherit;color:var(--ink);background:#fff;transition:border-color .15s;outline:none}
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--pri)}
 .form-group textarea{resize:vertical;min-height:60px}
-.form-checks{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.form-checks label{font-size:13px;font-weight:400;color:var(--ink2);display:flex;align-items:center;gap:6px;cursor:pointer}
-.form-checks input[type="checkbox"]{accent-color:var(--pri);width:16px;height:16px}
 .form-submit{display:block;width:100%;padding:14px;background:var(--pri);color:#fff;font-size:15px;font-weight:700;border:none;border-radius:12px;cursor:pointer;margin-top:8px;transition:background .15s}
 .form-submit:hover{background:var(--pri-d)}
 .form-success{display:none;text-align:center;padding:40px 20px}
@@ -579,22 +576,21 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
               <option>律师/法律</option>
               <option>电商/零售</option>
               <option>跨境贸易</option>
-              <option>餐饮/连锁</option>
+              <option>宠物/生活服务</option>
               <option>营销/广告</option>
               <option>教育/培训</option>
               <option>会计/审计</option>
               <option>医疗/健康</option>
               <option>制造/物流</option>
               <option>房地产/建筑</option>
-              <option>人力资源/招聘</option>
-              <option>宠物/生活服务</option>
+              <option>人力资源</option>
               <option>其他</option>
             </select>
           </div>
         </div>
         <div class="form-group" style="margin-bottom:12px">
           <label>感兴趣的服务（可多选）</label>
-          <div class="form-checks">
+          <div class="form-checkboxes">
             <label><input type="checkbox" value="AI 共创工作坊"> AI 共创工作坊</label>
             <label><input type="checkbox" value="AI 深度定制工作坊"> AI 深度定制工作坊</label>
             <label><input type="checkbox" value="AI 教学课程"> AI 教学课程</label>
@@ -607,7 +603,7 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
         </div>
         <div class="form-group" style="margin-bottom:12px">
           <label>一句话描述你的需求（选填）</label>
-          <input type="text" placeholder="例如：想让团队用 AI 提升合同审查效率">
+          <textarea placeholder="例如：想让团队用 AI 提升合同审查效率"></textarea>
         </div>
         <button type="submit" class="form-submit">提交预约</button>
       </form>
