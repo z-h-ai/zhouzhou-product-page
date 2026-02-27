@@ -113,6 +113,17 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
 .story .s-pain{font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:10px}
 .story .s-result{font-size:13px;color:var(--grn);font-weight:600;line-height:1.5}
 
+/* ── ADDON SERVICES ── */
+.addon-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:16px 0}
+.addon-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px;box-shadow:var(--sh);text-align:center}
+.addon-icon{font-size:28px;margin-bottom:8px}
+.addon-name{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.addon-desc{font-size:12px;color:var(--ink2);line-height:1.5;margin-bottom:8px}
+.addon-tag{display:inline-block;font-size:10px;font-weight:600;color:var(--pri);background:var(--pri-l);padding:2px 10px;border-radius:20px}
+
+/* ── STORY TAG ── */
+.story .s-tag{display:inline-block;font-size:10px;font-weight:700;color:#fff;background:var(--pri);padding:2px 10px;border-radius:20px;margin-bottom:8px}
+
 /* ── COMPARE ── */
 .cmp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:16px 0}
 .cmp{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:16px;box-shadow:var(--sh)}
@@ -132,12 +143,21 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
 .form-group input,.form-group select,.form-group textarea{padding:10px 14px;border:1.5px solid var(--bdr);border-radius:10px;font-size:14px;font-family:inherit;color:var(--ink);background:#fff;transition:border-color .15s;outline:none}
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--pri)}
 .form-group textarea{resize:vertical;min-height:60px}
+.form-checks{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.form-checks label{font-size:13px;font-weight:400;color:var(--ink2);display:flex;align-items:center;gap:6px;cursor:pointer}
+.form-checks input[type="checkbox"]{accent-color:var(--pri);width:16px;height:16px}
 .form-submit{display:block;width:100%;padding:14px;background:var(--pri);color:#fff;font-size:15px;font-weight:700;border:none;border-radius:12px;cursor:pointer;margin-top:8px;transition:background .15s}
 .form-submit:hover{background:var(--pri-d)}
 .form-success{display:none;text-align:center;padding:40px 20px}
 .form-success .fs-icon{font-size:48px;margin-bottom:12px}
 .form-success .fs-title{font-size:20px;font-weight:800;color:var(--ink);margin-bottom:8px}
 .form-success .fs-desc{font-size:14px;color:var(--ink2)}
+
+/* ── FORM CHECKBOXES ── */
+.form-checkboxes{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.form-checkboxes label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink2);cursor:pointer;padding:6px 10px;border:1px solid var(--bdr);border-radius:8px;transition:all .15s}
+.form-checkboxes label:hover{border-color:var(--pri);color:var(--pri)}
+.form-checkboxes input[type="checkbox"]{accent-color:var(--pri)}
 
 /* ── FOOTER ── */
 .footer{text-align:center;padding:32px 20px;font-size:12px;color:var(--ink3);border-top:1px solid var(--bdr)}
@@ -162,6 +182,7 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
   .form-row{grid-template-columns:1fr}
   .form-group.full{grid-column:span 1}
   .cmp-grid{grid-template-columns:1fr 1fr}
+  .addon-grid{grid-template-columns:1fr 1fr}
   .hero{padding:40px 20px 36px}
   .result-path{flex-direction:column;align-items:center}
   .rp-step,.rp-step:first-child,.rp-step:last-child{border-radius:8px!important;width:100%;max-width:260px}
@@ -177,6 +198,7 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
   <span class="brand">周周黑客松</span>
   <a href="#quiz">适合我吗</a>
   <a href="#products">服务内容</a>
+  <a href="#addons">增值服务</a>
   <a href="#stories">案例</a>
   <a href="#compare">方案对比</a>
   <a href="#contact">免费预约</a>
@@ -391,12 +413,56 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
           <li>5 天技术支持保障</li>
           <li>工具归你所有，不绑定平台</li>
         </ul>
-        <div class="prod-time">诊断 2 天 + 开发 5 天 + 测试 2 天 + 培训 1 天 = 10 天交付</div>
+        <div class="prod-time">7天准备 + 8天共创 = 半个月内马上能用，之后还有1个月线上陪伴</div>
       </div>
     </div>
 
     <div style="text-align:center;margin-top:8px;padding:16px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border-radius:12px;font-size:15px;font-weight:700">
-      完整合作 = 共创 + 深度定制 = 8 万以内，10 天内拿走能用的 AI 工具
+      完整合作 = 2-9 万，10 天内拿走能用的 AI 工具
+    </div>
+  </section>
+
+  <!-- ══ ADDON SERVICES ══ -->
+  <section class="sec" id="addons">
+    <div class="sec-title"><span class="dot"></span>延伸增值服务</div>
+    <p class="sec-sub">参加工作坊后，还可以按需选择以下服务，助力你的 AI 转型之路。</p>
+    <div class="addon-grid">
+      <div class="addon-card" style="border-top:3px solid #4f46e5">
+        <div class="addon-icon">📚</div>
+        <div class="addon-name">AI 教学课程</div>
+        <div class="addon-desc">让团队系统掌握 AI 工具使用方法</div>
+        <div class="addon-tag">线上</div>
+      </div>
+      <div class="addon-card" style="border-top:3px solid #7c3aed">
+        <div class="addon-icon">🧭</div>
+        <div class="addon-name">AI 转型顾问</div>
+        <div class="addon-desc">持续指导你的 AI 落地路径</div>
+        <div class="addon-tag">季度订阅</div>
+      </div>
+      <div class="addon-card" style="border-top:3px solid #059669">
+        <div class="addon-icon">📊</div>
+        <div class="addon-name">行业 AI 资讯案例库</div>
+        <div class="addon-desc">掌握同行最新的 AI 应用动态</div>
+        <div class="addon-tag">季度订阅</div>
+      </div>
+      <div class="addon-card" style="border-top:3px solid #d97706">
+        <div class="addon-icon">📣</div>
+        <div class="addon-name">AI 工作坊成果宣传</div>
+        <div class="addon-desc">展示你的 AI 转型成果，提升品牌形象</div>
+        <div class="addon-tag">社媒曝光</div>
+      </div>
+      <div class="addon-card" style="border-top:3px solid #dc2626">
+        <div class="addon-icon">🏅</div>
+        <div class="addon-name">AI 专业认证</div>
+        <div class="addon-desc">获得权威 AI 应用能力认证</div>
+        <div class="addon-tag">协会/高校</div>
+      </div>
+      <div class="addon-card" style="border-top:3px solid #0891b2">
+        <div class="addon-icon">🚀</div>
+        <div class="addon-name">AI 新业务孵化</div>
+        <div class="addon-desc">用 AI 探索新的业务增长点</div>
+        <div class="addon-tag">按需</div>
+      </div>
     </div>
   </section>
 
@@ -407,18 +473,21 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
 
     <div class="story-grid">
       <div class="story">
+        <div class="s-tag">深度定制工作坊</div>
         <div class="s-ind">律师事务所 · 8人</div>
         <div class="s-name">张律师 · 合伙人</div>
         <div class="s-pain">每天大量时间花在合同审查、案例检索、法律文书起草上。试了 ChatGPT 觉得不够专业，不敢用在正式业务里。</div>
         <div class="s-result">工作坊后定制了 5 个 AI 工具：合同智能审查（12类模板）、案例检索、文书草拟、函件生成、案件周报。合同审查从 1 小时缩短到 2 分钟。</div>
       </div>
       <div class="story">
+        <div class="s-tag">深度定制工作坊</div>
         <div class="s-ind">电商运营 · 12人团队</div>
         <div class="s-name">李总 · 运营总监</div>
         <div class="s-pain">年营收 3000 万。每天写产品描述、做主图文案、回复客服消息、整理数据周报。知道 AI 能做，但不知道怎么让整个团队用起来。</div>
         <div class="s-result">定制了 SKU 描述批量生成、主图文案、客服标准回复、差评应对话术、周数据报告。运营一天写 50 个 SKU 描述，现在 5 分钟全出来。</div>
       </div>
       <div class="story">
+        <div class="s-tag">AI 共创工作坊</div>
         <div class="s-ind">宠物店 · 2家门店 5人</div>
         <div class="s-name">陈老板 · 宠物店主</div>
         <div class="s-pain">每天花 2 小时想怎么发朋友圈文案，每个月要办一场活动但是没有创意，不知道 AI 怎么用到自己的实体小生意。</div>
@@ -437,7 +506,7 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
         <div class="c-name">传统软件外包</div>
         <div class="c-price">¥15-30万</div>
         <div class="c-time">8-12 周</div>
-        <div class="c-note">沟通困难，贵3倍，慢5倍</div>
+        <div class="c-note">沟通困难，贵2-3倍，慢5倍</div>
       </div>
       <div class="cmp">
         <div class="c-name">AI 网课</div>
@@ -447,9 +516,9 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
       </div>
       <div class="cmp us">
         <div class="c-name">周周黑客松</div>
-        <div class="c-price">¥8万以内</div>
+        <div class="c-price">¥2-9万</div>
         <div class="c-time">10天内，拿走马上落地的AI工具</div>
-        <div class="c-note">用你的业务现场做，教会你的人，成为行业内的AI领先者</div>
+        <div class="c-note">工具代码归你，教会你的人，成为行业AI领先者</div>
       </div>
     </div>
   </section>
@@ -504,15 +573,41 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
             <input type="text" required placeholder="方便我们联系你">
           </div>
           <div class="form-group">
-            <label>感兴趣的服务</label>
+            <label>行业</label>
             <select>
               <option value="">请选择</option>
-              <option>先免费评估看看</option>
-              <option>直接参加共创工作坊</option>
-              <option>想了解深度定制工作坊</option>
-              <option>都想了解</option>
+              <option>律师/法律</option>
+              <option>电商/零售</option>
+              <option>跨境贸易</option>
+              <option>餐饮/连锁</option>
+              <option>营销/广告</option>
+              <option>教育/培训</option>
+              <option>会计/审计</option>
+              <option>医疗/健康</option>
+              <option>制造/物流</option>
+              <option>房地产/建筑</option>
+              <option>人力资源/招聘</option>
+              <option>宠物/生活服务</option>
+              <option>其他</option>
             </select>
           </div>
+        </div>
+        <div class="form-group" style="margin-bottom:12px">
+          <label>感兴趣的服务（可多选）</label>
+          <div class="form-checks">
+            <label><input type="checkbox" value="AI 共创工作坊"> AI 共创工作坊</label>
+            <label><input type="checkbox" value="AI 深度定制工作坊"> AI 深度定制工作坊</label>
+            <label><input type="checkbox" value="AI 教学课程"> AI 教学课程</label>
+            <label><input type="checkbox" value="AI 转型顾问"> AI 转型顾问</label>
+            <label><input type="checkbox" value="行业 AI 资讯案例库"> 行业 AI 资讯案例库</label>
+            <label><input type="checkbox" value="AI 工作坊成果宣传"> AI 工作坊成果宣传</label>
+            <label><input type="checkbox" value="AI 专业认证"> AI 专业认证</label>
+            <label><input type="checkbox" value="AI 新业务孵化"> AI 新业务孵化</label>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:12px">
+          <label>一句话描述你的需求（选填）</label>
+          <input type="text" placeholder="例如：想让团队用 AI 提升合同审查效率">
         </div>
         <button type="submit" class="form-submit">提交预约</button>
       </form>
