@@ -198,11 +198,12 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
 
   <!-- ══ QUIZ ══ -->
   <section class="sec" id="quiz">
-    <div class="sec-title"><span class="dot"></span>1 分钟自诊断：AI 能帮到你吗？</div>
-    <p class="sec-sub">回答 5 个问题，我们帮你判断当前阶段最适合的合作方式。</p>
+    <div class="sec-title"><span class="dot"></span>2 分钟自诊断：AI 能帮到你吗？</div>
+    <p class="sec-sub">回答 6 个问题，我们帮你判断当前阶段最适合的合作方式，并梳理可以用 AI 优化的业务流程。</p>
 
     <div class="quiz-box" id="quizBox">
       <div class="quiz-progress" id="qProgress">
+        <div class="quiz-dot"></div>
         <div class="quiz-dot"></div>
         <div class="quiz-dot"></div>
         <div class="quiz-dot"></div>
@@ -212,7 +213,25 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
 
       <!-- Q1 -->
       <div class="q-card active" data-q="0">
-        <div class="q-num">问题 1 / 5</div>
+        <div class="q-num">问题 1 / 6</div>
+        <div class="q-text">你所在的行业是？</div>
+        <div class="q-opts">
+          <div class="q-opt" data-score="3">律师 / 法律服务</div>
+          <div class="q-opt" data-score="3">电商 / 零售 / 跨境贸易</div>
+          <div class="q-opt" data-score="3">餐饮 / 连锁门店</div>
+          <div class="q-opt" data-score="3">营销 / 广告 / 内容创作</div>
+          <div class="q-opt" data-score="3">教育 / 培训</div>
+          <div class="q-opt" data-score="3">会计 / 审计 / 财务</div>
+          <div class="q-opt" data-score="2">医疗 / 健康</div>
+          <div class="q-opt" data-score="2">制造 / 物流 / 供应链</div>
+          <div class="q-opt" data-score="2">房地产 / 建筑</div>
+          <div class="q-opt" data-score="2">人力资源 / 招聘</div>
+          <div class="q-opt" data-score="1">其他行业</div>
+        </div>
+      </div>
+      <!-- Q2 -->
+      <div class="q-card" data-q="1">
+        <div class="q-num">问题 2 / 6</div>
         <div class="q-text">你的团队有多少人？</div>
         <div class="q-opts">
           <div class="q-opt" data-score="0">10 人以下</div>
@@ -221,19 +240,22 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
           <div class="q-opt" data-score="0">500 人以上</div>
         </div>
       </div>
-      <!-- Q2 -->
-      <div class="q-card" data-q="1">
-        <div class="q-num">问题 2 / 5</div>
-        <div class="q-text">你的业务里有没有大量重复性的文书、数据整理或内容制作工作？</div>
-        <div class="q-opts">
-          <div class="q-opt" data-score="3">有，而且我们有标准流程（SOP）</div>
-          <div class="q-opt" data-score="2">有，但还没有标准化的流程</div>
-          <div class="q-opt" data-score="0">基本没有，我们每一单都不一样</div>
-        </div>
-      </div>
       <!-- Q3 -->
       <div class="q-card" data-q="2">
-        <div class="q-num">问题 3 / 5</div>
+        <div class="q-num">问题 3 / 6</div>
+        <div class="q-text">你的业务里，哪些类型的工作占比最高？（可多想几个）</div>
+        <div class="q-opts">
+          <div class="q-opt" data-score="3">大量文档处理（合同、报告、方案等）</div>
+          <div class="q-opt" data-score="3">重复性内容创作（文案、描述、邮件等）</div>
+          <div class="q-opt" data-score="3">数据整理与分析（表格、报表、对账等）</div>
+          <div class="q-opt" data-score="3">客户沟通与服务（回复、跟进、答疑等）</div>
+          <div class="q-opt" data-score="2">知识检索与整理（案例、资料、规范等）</div>
+          <div class="q-opt" data-score="1">创意性/定制化工作（每单都不同）</div>
+        </div>
+      </div>
+      <!-- Q4 -->
+      <div class="q-card" data-q="3">
+        <div class="q-num">问题 4 / 6</div>
         <div class="q-text">你的团队里有没有人懂 AI 技术？</div>
         <div class="q-opts">
           <div class="q-opt" data-score="3">没有，完全没有技术背景</div>
@@ -241,9 +263,9 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
           <div class="q-opt" data-score="0">有专门的 AI / 技术团队</div>
         </div>
       </div>
-      <!-- Q4 -->
-      <div class="q-card" data-q="3">
-        <div class="q-num">问题 4 / 5</div>
+      <!-- Q5 -->
+      <div class="q-card" data-q="4">
+        <div class="q-num">问题 5 / 6</div>
         <div class="q-text">你愿意花多少预算来试试用 AI 提升效率？</div>
         <div class="q-opts">
           <div class="q-opt" data-score="1">先免费了解一下</div>
@@ -252,9 +274,9 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
           <div class="q-opt" data-score="3">更多也可以，关键是结果</div>
         </div>
       </div>
-      <!-- Q5 -->
-      <div class="q-card" data-q="4">
-        <div class="q-num">问题 5 / 5</div>
+      <!-- Q6 -->
+      <div class="q-card" data-q="5">
+        <div class="q-num">问题 6 / 6</div>
         <div class="q-text">你现在对 AI 的态度是？</div>
         <div class="q-opts">
           <div class="q-opt" data-score="1">好奇，想了解了解</div>
@@ -466,6 +488,10 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
               <option>营销/广告</option>
               <option>教育/培训</option>
               <option>会计/审计</option>
+              <option>医疗/健康</option>
+              <option>制造/物流</option>
+              <option>房地产/建筑</option>
+              <option>人力资源</option>
               <option>其他</option>
             </select>
           </div>
@@ -492,12 +518,28 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
             </select>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group full">
-            <label>一句话描述你的需求（选填）</label>
-            <textarea placeholder="比如：我们律所想用 AI 做合同审查，不知道从哪开始"></textarea>
+        
+        <!-- 开放性问题：引导客户梳理业务流程 -->
+        <div style="margin:20px 0 12px;padding:16px;background:#f8fafc;border-radius:12px;border:1px dashed var(--bdr)">
+          <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:12px">📋 帮我们了解一下你的业务流程</div>
+          <p style="font-size:12px;color:var(--ink3);margin-bottom:16px">回答以下问题，能帮我们在评估前就了解你的需求，让沟通更高效。（选填，但建议填写）</p>
+          
+          <div class="form-group" style="margin-bottom:12px">
+            <label>你日常工作中，最耗时、最重复的1-2个任务是什么？</label>
+            <textarea placeholder="例如：每天审查10-20份合同、整理销售数据做周报、回复大量客户咨询、撰写产品描述文案..." style="min-height:70px"></textarea>
+          </div>
+          
+          <div class="form-group" style="margin-bottom:12px">
+            <label>这些任务目前是怎么做的？有标准流程或模板吗？</label>
+            <textarea placeholder="例如：合同审查用Word对比+人工标注、周报用Excel汇总、客服回复有话术库..." style="min-height:70px"></textarea>
+          </div>
+          
+          <div class="form-group" style="margin-bottom:0">
+            <label>如果AI能帮你处理这些任务，你最希望达到什么效果？</label>
+            <textarea placeholder="例如：审查时间从1小时缩短到5分钟、自动生成80%的初稿、24小时自动回复常见问题..." style="min-height:70px"></textarea>
           </div>
         </div>
+        
         <button type="submit" class="form-submit">提交预约</button>
       </form>
     </div>
@@ -520,7 +562,7 @@ body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sa
 // ── QUIZ LOGIC ──
 const scores = [];
 let currentQ = 0;
-const totalQ = 5;
+const totalQ = 6;
 
 document.querySelectorAll('.q-opt').forEach(opt => {
   opt.addEventListener('click', function() {
@@ -555,7 +597,7 @@ function updateProgress() {
 
 function showResult() {
   const total = scores.reduce((a, b) => a + b, 0);
-  const maxScore = 15;
+  const maxScore = 18;
   const pct = Math.round((total / maxScore) * 100);
   const box = document.getElementById('resultBox');
 
