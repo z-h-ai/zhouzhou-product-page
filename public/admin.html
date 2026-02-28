@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>后台管理 - AI共创工作坊</title>
+<style>
+:root {
+  --ink:#1a1a2e; --ink2:#334155; --ink3:#64748b;
+  --bg:#f8fafc; --card:#fff;
+  --pri:#4f46e5; --pri-l:#e0e7ff; --pri-d:#3730a3;
+  --grn:#059669; --grn-l:#d1fae5;
+  --red:#dc2626; --red-l:#fee2e2;
+  --bdr:#e2e8f0; --r:12px;
+  --sh:0 1px 3px rgba(0,0,0,.06);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Noto Sans SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+
+.header{background:linear-gradient(135deg,#1e1b4b,#4338ca);padding:20px 24px;color:#fff;display:flex;align-items:center;justify-content:space-between}
+.header h1{font-size:18px;font-weight:700}
+.header .back{color:#c7d2fe;text-decoration:none;font-size:13px}
+.header .back:hover{color:#fff}
+
+.container{max-width:1100px;margin:0 auto;padding:24px 20px}
+
+/* Login */
+.login-box{max-width:400px;margin:80px auto;background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:40px 32px;box-shadow:var(--sh);text-align:center}
+.login-box h2{font-size:20px;margin-bottom:8px}
+.login-box p{font-size:13px;color:var(--ink3);margin-bottom:24px}
+.login-box input{width:100%;padding:12px 16px;border:1.5px solid var(--bdr);border-radius:10px;font-size:14px;margin-bottom:12px;outline:none;text-align:center}
+.login-box input:focus{border-color:var(--pri)}
+.login-box button{width:100%;padding:12px;background:var(--pri);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer}
+.login-box button:hover{background:var(--pri-d)}
+.login-error{color:var(--red);font-size:13px;margin-top:8px;display:none}
+
+/* Dashboard */
+.dashboard{display:none}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px}
+.stat-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px;box-shadow:var(--sh);text-align:center}
+.stat-card .num{font-size:32px;font-weight:800;color:var(--pri)}
+.stat-card .label{font-size:13px;color:var(--ink3);margin-top:4px}
+
+/* Tabs */
+.tabs{display:flex;gap:0;margin-bottom:20px;border-bottom:2px solid var(--bdr)}
+.tab{padding:12px 24px;font-size:14px;font-weight:600;color:var(--ink3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s}
+.tab:hover{color:var(--pri)}
+.tab.active{color:var(--pri);border-bottom-color:var(--pri)}
+
+/* Table */
+.table-wrap{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
+.table-toolbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--bdr)}
+.table-toolbar .count{font-size:13px;color:var(--ink3)}
+.btn{padding:8px 16px;border:1px solid var(--bdr);border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#fff;color:var(--ink2);transition:all .15s}
+.btn:hover{border-color:var(--pri);color:var(--pri)}
+.btn-pri{background:var(--pri);color:#fff;border-color:var(--pri)}
+.btn-pri:hover{background:var(--pri-d)}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead{background:#f1f5f9}
+th{text-align:left;padding:10px 16px;font-weight:600;color:var(--ink3);font-size:12px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+td{padding:10px 16px;border-top:1px solid var(--bdr);color:var(--ink2);vertical-align:top}
+tr:hover{background:#f8fafc}
+.tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;margin:1px 2px}
+.tag-pri{background:var(--pri-l);color:var(--pri)}
+.tag-grn{background:var(--grn-l);color:var(--grn)}
+.tag-red{background:var(--red-l);color:var(--red)}
+.tag-amb{background:#fef3c7;color:#d97706}
+
+.empty{text-align:center;padding:60px 20px;color:var(--ink3)}
+.empty .icon{font-size:40px;margin-bottom:12px}
+
+/* Score badge */
+.score-badge{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;font-weight:800;font-size:14px;color:#fff}
+.score-high{background:var(--grn)}
+.score-mid{background:#d97706}
+.score-low{background:var(--ink3)}
+
+/* Responsive */
+@media(max-width:768px){
+  .stats{grid-template-columns:1fr}
+  .table-wrap{overflow-x:auto}
+  table{min-width:600px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📊 AI共创工作坊 · 后台管理</h1>
+  <a class="back" href="/">← 返回主站</a>
+</div>
+
+<!-- Login -->
+<div id="loginBox" class="login-box">
+  <h2>🔐 管理后台</h2>
+  <p>请输入管理密码</p>
+  <input type="password" id="pwdInput" placeholder="请输入密码" onkeypress="if(event.key==='Enter')doLogin()">
+  <button onclick="doLogin()">登 录</button>
+  <div id="loginErr" class="login-error">密码错误，请重试</div>
+</div>
+
+<!-- Dashboard -->
+<div id="dashboard" class="dashboard">
+  <div class="container">
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat-card">
+        <div class="num" id="statForms">-</div>
+        <div class="label">表单提交</div>
+      </div>
+      <div class="stat-card">
+        <div class="num" id="statQuiz">-</div>
+        <div class="label">测评完成</div>
+      </div>
+      <div class="stat-card">
+        <div class="num" id="statToday">-</div>
+        <div class="label">今日新增</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab active" data-tab="forms" onclick="switchTab('forms')">📋 表单提交</div>
+      <div class="tab" data-tab="quiz" onclick="switchTab('quiz')">📝 测评结果</div>
+    </div>
+
+    <!-- Forms Table -->
+    <div id="formsTab" class="tab-content">
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <span class="count" id="formsCount">共 0 条记录</span>
+          <button class="btn" onclick="exportCSV('forms')">📥 导出 CSV</button>
+        </div>
+        <div id="formsTable"></div>
+      </div>
+    </div>
+
+    <!-- Quiz Table -->
+    <div id="quizTab" class="tab-content" style="display:none">
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <span class="count" id="quizCount">共 0 条记录</span>
+          <button class="btn" onclick="exportCSV('quiz')">📥 导出 CSV</button>
+        </div>
+        <div id="quizTable"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let adminPwd = '';
+let formsData = [];
+let quizData = [];
+
+function doLogin() {
+  const pwd = document.getElementById('pwdInput').value.trim();
+  if (!pwd) return;
+  adminPwd = pwd;
+
+  // Test with stats endpoint
+  fetch('/api/stats?password=' + encodeURIComponent(pwd))
+    .then(r => {
+      if (!r.ok) throw new Error('auth');
+      return r.json();
+    })
+    .then(d => {
+      document.getElementById('loginBox').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      loadData();
+    })
+    .catch(() => {
+      document.getElementById('loginErr').style.display = 'block';
+      setTimeout(() => document.getElementById('loginErr').style.display = 'none', 3000);
+    });
+}
+
+async function loadData() {
+  try {
+    const [formsRes, quizRes, statsRes] = await Promise.all([
+      fetch('/api/submissions?password=' + encodeURIComponent(adminPwd)).then(r => r.json()),
+      fetch('/api/quiz-results?password=' + encodeURIComponent(adminPwd)).then(r => r.json()),
+      fetch('/api/stats?password=' + encodeURIComponent(adminPwd)).then(r => r.json())
+    ]);
+
+    formsData = formsRes.data || [];
+    quizData = quizRes.data || [];
+
+    document.getElementById('statForms').textContent = statsRes.formCount || 0;
+    document.getElementById('statQuiz').textContent = statsRes.quizCount || 0;
+
+    // Today count
+    const today = new Date().toISOString().split('T')[0];
+    const todayForms = formsData.filter(r => r.created_at?.startsWith(today)).length;
+    const todayQuiz = quizData.filter(r => r.created_at?.startsWith(today)).length;
+    document.getElementById('statToday').textContent = todayForms + todayQuiz;
+
+    renderForms();
+    renderQuiz();
+  } catch (err) {
+    console.error('Load data error:', err);
+  }
+}
+
+function renderForms() {
+  const el = document.getElementById('formsTable');
+  document.getElementById('formsCount').textContent = `共 ${formsData.length} 条记录`;
+
+  if (formsData.length === 0) {
+    el.innerHTML = '<div class="empty"><div class="icon">📭</div><p>暂无表单提交</p></div>';
+    return;
+  }
+
+  let html = '<table><thead><tr><th>#</th><th>姓名</th><th>手机号</th><th>微信号</th><th>感兴趣的服务</th><th>提交时间</th><th>IP</th></tr></thead><tbody>';
+
+  formsData.forEach((r, i) => {
+    const services = Array.isArray(r.services) ? r.services : [];
+    const serviceTags = services.map(s => `<span class="tag tag-pri">${s}</span>`).join(' ');
+    const time = formatTime(r.created_at);
+
+    html += `<tr>
+      <td>${i + 1}</td>
+      <td><strong>${esc(r.name)}</strong></td>
+      <td>${esc(r.phone)}</td>
+      <td>${esc(r.wechat)}</td>
+      <td>${serviceTags || '<span style="color:#94a3b8">未选择</span>'}</td>
+      <td style="white-space:nowrap">${time}</td>
+      <td style="font-size:11px;color:#94a3b8">${esc(r.ip || '')}</td>
+    </tr>`;
+  });
+
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+function renderQuiz() {
+  const el = document.getElementById('quizTable');
+  document.getElementById('quizCount').textContent = `共 ${quizData.length} 条记录`;
+
+  if (quizData.length === 0) {
+    el.innerHTML = '<div class="empty"><div class="icon">📭</div><p>暂无测评记录</p></div>';
+    return;
+  }
+
+  let html = '<table><thead><tr><th>#</th><th>得分</th><th>结果类型</th><th>各题答案</th><th>提交时间</th><th>IP</th></tr></thead><tbody>';
+
+  const typeMap = { high: '高度匹配', medium: '值得一试', low: '先了解' };
+  const typeClass = { high: 'tag-grn', medium: 'tag-amb', low: 'tag-red' };
+
+  quizData.forEach((r, i) => {
+    const answers = Array.isArray(r.answers) ? r.answers : [];
+    const answersStr = answers.map((a, j) => `Q${j + 1}:${a}`).join(' ');
+    const time = formatTime(r.created_at);
+    const badgeClass = r.result_type === 'high' ? 'score-high' : r.result_type === 'medium' ? 'score-mid' : 'score-low';
+
+    html += `<tr>
+      <td>${i + 1}</td>
+      <td><span class="score-badge ${badgeClass}">${r.score}</span></td>
+      <td><span class="tag ${typeClass[r.result_type] || 'tag-pri'}">${typeMap[r.result_type] || r.result_type}</span></td>
+      <td style="font-size:11px;max-width:300px;word-break:break-all">${esc(answersStr)}</td>
+      <td style="white-space:nowrap">${time}</td>
+      <td style="font-size:11px;color:#94a3b8">${esc(r.ip || '')}</td>
+    </tr>`;
+  });
+
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.tab[data-tab="${tab}"]`).classList.add('active');
+  document.getElementById('formsTab').style.display = tab === 'forms' ? 'block' : 'none';
+  document.getElementById('quizTab').style.display = tab === 'quiz' ? 'block' : 'none';
+}
+
+function exportCSV(type) {
+  let csv = '';
+  let filename = '';
+
+  if (type === 'forms') {
+    csv = 'ID,姓名,手机号,微信号,感兴趣服务,提交时间,IP\n';
+    formsData.forEach(r => {
+      const services = Array.isArray(r.services) ? r.services.join('; ') : '';
+      csv += `"${r.id}","${r.name}","${r.phone}","${r.wechat}","${services}","${r.created_at}","${r.ip || ''}"\n`;
+    });
+    filename = `表单提交_${new Date().toISOString().split('T')[0]}.csv`;
+  } else {
+    csv = 'ID,得分,结果类型,各题答案,提交时间,IP\n';
+    quizData.forEach(r => {
+      const answers = Array.isArray(r.answers) ? r.answers.join('; ') : '';
+      csv += `"${r.id}","${r.score}","${r.result_type}","${answers}","${r.created_at}","${r.ip || ''}"\n`;
+    });
+    filename = `测评结果_${new Date().toISOString().split('T')[0]}.csv`;
+  }
+
+  // Add BOM for Excel Chinese compatibility
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function formatTime(iso) {
+  if (!iso) return '-';
+  const d = new Date(iso);
+  const pad = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function esc(str) {
+  if (!str) return '';
+  const el = document.createElement('span');
+  el.textContent = str;
+  return el.innerHTML;
+}
+</script>
+</body>
+</html>
