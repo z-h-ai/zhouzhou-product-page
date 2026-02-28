@@ -1,7 +1,8 @@
 const express = require('express');
 const path = require('path');
-const Database = require('better-sqlite3');
+const initSqlJs = require('sql.js');
 const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -11,56 +12,57 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'zhihui2026';
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Database setup
-const dbPath = path.join(__dirname, 'data', 'database.sqlite');
-const fs = require('fs');
-if (!fs.existsSync(path.join(__dirname, 'data'))) {
-  fs.mkdirSync(path.join(__dirname, 'data'), { recursive: true });
+const DATA_DIR = path.join(__dirname, 'data');
+const DB_PATH = path.join(DATA_DIR, 'database.sqlite');
+
+let db;
+
+async function initDB() {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
+
+  const SQL = await initSqlJs();
+
+  // Load existing DB or create new
+  if (fs.existsSync(DB_PATH)) {
+    const buffer = fs.readFileSync(DB_PATH);
+    db = new SQL.Database(buffer);
+  } else {
+    db = new SQL.Database();
+  }
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS form_submissions (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      phone TEXT NOT NULL,
+      wechat TEXT NOT NULL,
+      services TEXT DEFAULT '[]',
+      created_at TEXT NOT NULL,
+      ip TEXT
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS quiz_results (
+      id TEXT PRIMARY KEY,
+      answers TEXT DEFAULT '[]',
+      score INTEGER DEFAULT 0,
+      result_type TEXT,
+      created_at TEXT NOT NULL,
+      ip TEXT
+    )
+  `);
+
+  saveDB();
 }
 
-const db = new Database(dbPath);
-db.pragma('journal_mode = WAL');
-
-// Create tables
-db.exec(`
-  CREATE TABLE IF NOT EXISTS form_submissions (
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    phone TEXT NOT NULL,
-    wechat TEXT NOT NULL,
-    services TEXT DEFAULT '[]',
-    created_at TEXT NOT NULL,
-    ip TEXT
-  );
-
-  CREATE TABLE IF NOT EXISTS quiz_results (
-    id TEXT PRIMARY KEY,
-    answers TEXT DEFAULT '[]',
-    score INTEGER DEFAULT 0,
-    result_type TEXT,
-    created_at TEXT NOT NULL,
-    ip TEXT
-  );
-`);
-
-// Prepared statements
-const insertForm = db.prepare(`
-  INSERT INTO form_submissions (id, name, phone, wechat, services, created_at, ip)
-  VALUES (?, ?, ?, ?, ?, ?, ?)
-`);
-
-const insertQuiz = db.prepare(`
-  INSERT INTO quiz_results (id, answers, score, result_type, created_at, ip)
-  VALUES (?, ?, ?, ?, ?, ?)
-`);
-
-const getAllForms = db.prepare(`
-  SELECT * FROM form_submissions ORDER BY created_at DESC
-`);
-
-const getAllQuizzes = db.prepare(`
-  SELECT * FROM quiz_results ORDER BY created_at DESC
-`);
+function saveDB() {
+  const data = db.export();
+  const buffer = Buffer.from(data);
+  fs.writeFileSync(DB_PATH, buffer);
+}
 
 // Helper: get client IP
 function getClientIP(req) {
@@ -92,7 +94,11 @@ app.post('/api/submit-form', (req, res) => {
     const created_at = new Date().toISOString();
     const ip = getClientIP(req);
 
-    insertForm.run(id, name, phone, wechat, JSON.stringify(services || []), created_at, ip);
+    db.run(
+      'INSERT INTO form_submissions (id, name, phone, wechat, services, created_at, ip) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [id, name, phone, wechat, JSON.stringify(services || []), created_at, ip]
+    );
+    saveDB();
 
     res.json({ success: true, id });
   } catch (err) {
@@ -110,7 +116,11 @@ app.post('/api/submit-quiz', (req, res) => {
     const created_at = new Date().toISOString();
     const ip = getClientIP(req);
 
-    insertQuiz.run(id, JSON.stringify(answers || []), score || 0, result_type || '', created_at, ip);
+    db.run(
+      'INSERT INTO quiz_results (id, answers, score, result_type, created_at, ip) VALUES (?, ?, ?, ?, ?, ?)',
+      [id, JSON.stringify(answers || []), score || 0, result_type || '', created_at, ip]
+    );
+    saveDB();
 
     res.json({ success: true, id });
   } catch (err) {
@@ -126,12 +136,15 @@ app.get('/api/submissions', (req, res) => {
   }
 
   try {
-    const rows = getAllForms.all();
-    const data = rows.map(r => ({
-      ...r,
-      services: JSON.parse(r.services || '[]')
-    }));
-    res.json({ success: true, data, total: data.length });
+    const stmt = db.prepare('SELECT * FROM form_submissions ORDER BY created_at DESC');
+    const rows = [];
+    while (stmt.step()) {
+      const row = stmt.getAsObject();
+      row.services = JSON.parse(row.services || '[]');
+      rows.push(row);
+    }
+    stmt.free();
+    res.json({ success: true, data: rows, total: rows.length });
   } catch (err) {
     console.error('get submissions error:', err);
     res.status(500).json({ error: '服务器错误' });
@@ -145,12 +158,15 @@ app.get('/api/quiz-results', (req, res) => {
   }
 
   try {
-    const rows = getAllQuizzes.all();
-    const data = rows.map(r => ({
-      ...r,
-      answers: JSON.parse(r.answers || '[]')
-    }));
-    res.json({ success: true, data, total: data.length });
+    const stmt = db.prepare('SELECT * FROM quiz_results ORDER BY created_at DESC');
+    const rows = [];
+    while (stmt.step()) {
+      const row = stmt.getAsObject();
+      row.answers = JSON.parse(row.answers || '[]');
+      rows.push(row);
+    }
+    stmt.free();
+    res.json({ success: true, data: rows, total: rows.length });
   } catch (err) {
     console.error('get quiz-results error:', err);
     res.status(500).json({ error: '服务器错误' });
@@ -164,8 +180,8 @@ app.get('/api/stats', (req, res) => {
   }
 
   try {
-    const formCount = db.prepare('SELECT COUNT(*) as count FROM form_submissions').get().count;
-    const quizCount = db.prepare('SELECT COUNT(*) as count FROM quiz_results').get().count;
+    const formCount = db.exec('SELECT COUNT(*) as count FROM form_submissions')[0]?.values[0][0] || 0;
+    const quizCount = db.exec('SELECT COUNT(*) as count FROM quiz_results')[0]?.values[0][0] || 0;
     res.json({ success: true, formCount, quizCount });
   } catch (err) {
     console.error('stats error:', err);
@@ -174,7 +190,12 @@ app.get('/api/stats', (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Admin page: http://localhost:${PORT}/admin.html`);
+initDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log(`Admin page: http://localhost:${PORT}/admin.html`);
+  });
+}).catch(err => {
+  console.error('Failed to init database:', err);
+  process.exit(1);
 });
