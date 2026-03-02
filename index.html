@@ -782,20 +782,21 @@ function showResult() {
   const hTotal = Object.values(hScores).reduce((a, b) => a + b, 0);
   const aTotal = Object.values(aScores).reduce((a, b) => a + b, 0);
   
-  // H阈值: 0-5=H1, 6-11=H2, 12-17=H3, 18-23=H4, 24+=H5
-  const hLevel = calcLevel(hScores, [0, 6, 12, 18, 24]);
-  // A阈值: 0-4=A1, 5-9=A2, 10-14=A3, 15-19=A4, 20+=A5
-  const aLevel = calcLevel(aScores, [0, 5, 10, 15, 20]);
+  // 调整后的阈值（更细粒度）
+  // H阈值: 0-5=H1, 6-10=H2, 11-16=H3, 17-22=H4, 23+=H5
+  const hLevel = calcLevel(hScores, [0, 6, 11, 17, 23]);
+  // A阈值: 0-4=A1, 5-8=A2, 9-13=A3, 14-18=A4, 19+=A5
+  const aLevel = calcLevel(aScores, [0, 5, 9, 14, 19]);
   
   const box = document.getElementById('resultBox');
   document.querySelectorAll('.quiz-dot').forEach(d => { d.classList.remove('active'); d.classList.add('done'); });
 
-  // 判断矩阵位置
+  // 判断矩阵位置（收窄"对角线"范围）
   const diff = hLevel - aLevel;
   let position, icon, title, desc, pathHTML, ctaText;
   
-  if (diff >= -1 && diff <= 1) {
-    // 对角线区域（理想协同）
+  if (diff === 0) {
+    // 严格对角线（理想协同）
     position = 'diagonal';
     icon = '🎯';
     title = '太棒了！你正处于AI协同的理想状态';
