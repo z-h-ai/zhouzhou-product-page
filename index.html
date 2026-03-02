@@ -799,34 +799,34 @@ function showResult() {
     // 严格对角线（理想协同）
     position = 'diagonal';
     icon = '🎯';
-    title = '太棒了！你正处于AI协同的理想状态';
-    desc = `你的AI驾驭能力（${H_NAMES[hLevel]}）和业务AI适配度（${A_NAMES[aLevel]}）很匹配。这意味着你能顺畅地和AI协作，发挥出最大的效率。`;
+    title = '很好的起点！你的AI协同基础很扎实';
+    desc = `你目前的AI驾驭能力（${H_NAMES[hLevel]}）和业务AI适配度（${A_NAMES[aLevel]}）很匹配。但这只是开始——真正的高手都在往H5/A5进阶。想象一下：当你的团队能驾驭更智能的AI系统，效率可以再提升3-5倍，竞争对手还在用去年的工具，你已经是明年的水平。`;
     if (hLevel >= 4) {
-      pathHTML = '<div class="rp-step">深度定制工作坊<br><small>¥59,800起</small></div><div class="rp-step">长期AI顾问<br><small>持续陪跑</small></div>';
-      ctaText = '预约深度定制咨询 →';
+      pathHTML = '<div class="rp-step">深度定制工作坊<br><small>向H5/A5进阶</small></div><div class="rp-step">长期AI顾问<br><small>持续领先</small></div>';
+      ctaText = '预约进阶咨询 →';
     } else if (hLevel >= 2) {
-      pathHTML = '<div class="rp-step">免费诊断咨询<br><small>1小时</small></div><div class="rp-step">共创工作坊<br><small>¥19,800起</small></div>';
-      ctaText = '预约免费诊断咨询 →';
+      pathHTML = '<div class="rp-step">免费诊断咨询<br><small>看看提升空间</small></div><div class="rp-step">共创工作坊<br><small>升级AI能力</small></div>';
+      ctaText = '免费诊断，看看能提升多少 →';
     } else {
-      pathHTML = '<div class="rp-step">AI教学课程<br><small>建立认知</small></div><div class="rp-step">免费诊断<br><small>了解AI能做什么</small></div>';
-      ctaText = '免费了解一下 →';
+      pathHTML = '<div class="rp-step">AI教学课程<br><small>快速上手</small></div><div class="rp-step">免费诊断<br><small>制定提升计划</small></div>';
+      ctaText = '免费开始 →';
     }
   } else if (diff > 1) {
     // 高于对角线（工具太笨）
     position = 'above';
     icon = '💡';
     title = '你对AI的理解已经很超前了！';
-    desc = `你的AI驾驭能力（${H_NAMES[hLevel]}）很强，但当前使用的工具（${A_NAMES[aLevel]}）可能限制了你的发挥。建议升级到更智能的AI系统，承载你的高阶战略。`;
+    desc = `你的AI驾驭能力（${H_NAMES[hLevel]}）很强，但目前的工具（${A_NAMES[aLevel]}）就像用算盘跑大数据——你的能力被限制住了。升级到更智能的AI系统后，你的战略思维可以真正落地，而不是被工具拖后腿。同行还在学基础，你已经能用AI军团打仗了。`;
     pathHTML = '<div class="rp-step">免费诊断咨询<br><small>评估升级空间</small></div><div class="rp-step">定制AI工作流<br><small>释放你的潜力</small></div>';
-    ctaText = '预约免费诊断咨询 →';
+    ctaText = '看看你能做到什么程度 →';
   } else {
     // 低于对角线（可能失控）
     position = 'below';
     icon = '🌱';
-    title = '你的业务场景非常适合AI！';
-    desc = `你的业务（${A_NAMES[aLevel]}）有很好的AI应用潜力。建议从简单易上手的AI工具开始，逐步建立信心和经验，再引入更智能的系统。`;
-    pathHTML = '<div class="rp-step">AI教学课程<br><small>先学会用</small></div><div class="rp-step">共创工作坊<br><small>现场做出工具</small></div>';
-    ctaText = '从简单开始 →';
+    title = '你的业务是AI的天然战场！';
+    desc = `你的业务场景（${A_NAMES[aLevel]}）非常适合AI来提效——这意味着你有巨大的提升空间。现在掌握AI驾驭能力，就像10年前学会用电脑一样重要。先从简单工具上手，很快你就能让AI帮你干掉80%的重复工作，把时间留给真正创造价值的事。`;
+    pathHTML = '<div class="rp-step">AI教学课程<br><small>7天掌握基础</small></div><div class="rp-step">共创工作坊<br><small>现场做出工具</small></div>';
+    ctaText = '开始你的AI提效之旅 →';
   }
 
   box.innerHTML = `
